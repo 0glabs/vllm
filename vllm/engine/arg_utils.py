@@ -101,6 +101,14 @@ class EngineArgs:
 
     qlora_adapter_name_or_path: Optional[str] = None
 
+    # 0g related arguments
+    input_price: int = 0
+    output_price: int = 0
+    agent_url : str = "kit"
+    service_name: str = "kit"
+    host:str = "kit"
+    port:int = 0
+
     def __post_init__(self):
         if self.tokenizer is None:
             self.tokenizer = self.model
@@ -598,6 +606,11 @@ class EngineArgs:
                             type=str,
                             default=None,
                             help='Name or path of the QLoRA adapter.')
+
+        # 0g related arguments
+        from zerog_llm_serving.utils import cli
+        parser = cli.add_args(parser)
+
         return parser
 
     @classmethod

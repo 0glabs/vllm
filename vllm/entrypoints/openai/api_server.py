@@ -54,7 +54,20 @@ async def lifespan(app: fastapi.FastAPI):
         _running_tasks.add(task)
         task.add_done_callback(_running_tasks.remove)
 
+    from zerog_llm_serving.utils import serving_agent
+    serving_agent.register_service(
+        engine_args.agent_url,
+        engine_args.host + ':' + str(engine_args.port),
+        engine_args.input_price,
+        engine_args.output_price,
+        engine_args.service_name)
+
     yield
+
+    serving_agent.deregister_service(
+        engine_args.agent_url,
+        engine_args.service_name
+    )
 
 
 app = fastapi.FastAPI(lifespan=lifespan)
@@ -136,6 +149,17 @@ async def create_embedding(request: EmbeddingRequest, raw_request: Request):
                             status_code=generator.code)
     else:
         return JSONResponse(content=generator.model_dump())
+
+
+
+def zerog_llm_onload(app, args):
+    from zerog_llm_serving import serving_agent
+    serving_agent.register_service(
+        args.agent_url,
+        args.host + args.port,
+        args.input_price,
+        args.output_price,
+        args.service_name)
 
 
 if __name__ == "__main__":

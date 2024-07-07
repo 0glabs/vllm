@@ -151,17 +151,6 @@ async def create_embedding(request: EmbeddingRequest, raw_request: Request):
         return JSONResponse(content=generator.model_dump())
 
 
-
-def zerog_llm_onload(app, args):
-    from zerog_llm_serving import serving_agent
-    serving_agent.register_service(
-        args.agent_url,
-        args.host + args.port,
-        args.input_price,
-        args.output_price,
-        args.service_name)
-
-
 if __name__ == "__main__":
     args = parse_args()
 

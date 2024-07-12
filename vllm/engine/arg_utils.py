@@ -106,8 +106,9 @@ class EngineArgs:
     output_price: int = 0
     agent_url : str = "kit"
     service_name: str = "kit"
-    host : str = '0.0.0.0'
-    port : int = 8000
+    service_type: str = 'chatbot'
+    host: str = '0.0.0.0'
+    port: int = 8000
 
     def __post_init__(self):
         if self.tokenizer is None:

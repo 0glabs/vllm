@@ -61,7 +61,8 @@ async def lifespan(app: fastapi.FastAPI):
         engine_args.host + ':' + str(engine_args.port),
         engine_args.input_price,
         engine_args.output_price,
-        engine_args.service_name)
+        engine_args.service_name,
+        engine_args.service_type)
 
     if not register_response.ok:
         logger.info('Failed to start service since register to 0G service agent failed.')
